@@ -1,0 +1,72 @@
+
+\documentclass[sigconf,authoryear]{acmart}
+\settopmatter{printfolios=true}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[normalem]{ulem}
+\usepackage[utf8]{inputenc}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage{todonotes}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}  % or any system font
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\setmathfont{Latin Modern Math} % system-installed math font
+
+
+\title{Literature Review\protect\\ \large September 2025}
+\author{Ian Barnaby}\author{}\author{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+This project aims to research and design an asymmetric encryption method targeting a processor and AI accelerator pair. In the 
+theorized application, the accelerator is taken as a trusted base holding the IP of a neural network. It is therefore desired to
+have an encryption scheme between CPU and accelerator to prevent malicious actors from performing snooping attacks on the bus connecting
+the accelerator and processor. This project specifically considers accelerators utilizing non-volatile memory to perform compute 
+in-memory operations. These types of devices have been demonstrated to allow for information to be encoded in physical device 
+properties, without being stored in the current state of the cell. In the proposed encryption mechanism, values encoded 
+in the memory cells are used to generate a private/public key pair, used to encrypt processor/accelerator communication.
+
+\section{Relevant Background}
+This literature review focuses on literature regarding the relevant NVM devices/device properties, asymmetric encryption, PUF-based key
+generation, fault injection defense
+
+
+\section{Search Terms}
+In searching for papers, databases such as EngineeringVillage and IEEEXplore were used. Search terms included terms such as, 
+but not limited to:
+\begin{itemize}
+    \item 
+\end{itemize}
+
+
+\section{Paper Reviews}
+\subsection{Paper 1 - Ian}
+
+
+
+\subsection{Paper 2 - Ian}
+
+
+\subsection{Paper 3 - Ryn}
+
+
+\subsection{Paper 4 - Ryn } 
+
+\subsection{Paper 5 - Tome}
+
+\subsection{Paper 6 - Tome}
+
+\section{Summary of Field}
+\begin{comment}
+    - field summary
+    - paragraph
+\end{comment}
+
+
+\bibliographystyle{styles/ACM-Reference-Format}
+\bibliography{main}
+\end{document}
+
