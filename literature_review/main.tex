@@ -40,8 +40,8 @@ but not limited to:
 
 
 \section{Paper Reviews}
-\subsection{Hiding Information for Secure and Covert Data Storage in Commercial ReRAM Chips \cite{ReRAM_hiding}}
-This paper demonstrates a technique for covert data storage in ReRAM devices. The researchers state that the set/reset time of
+\subsection{Hiding Information for Secure and Covert Data Storage in Commercial ReRAM Chips}
+This paper demonstrates a technique for covert data storage in ReRAM devices \cite{ReRAM_hiding}. The researchers state that the set/reset time of
 a ReRAM cell changes with each write cycle. This occurs due to oxygen vacancies in the oxide layer used to construct the conductive
 filament and limits the total number of write cycles the cell can handle before it no longer functions. The researchers have observed
 that, once the set/reset characteristics of a cell have been altered, they can reliable determine cells with more or less "wear". By
@@ -51,7 +51,38 @@ recovered until a threshold is reached. After a certain number of write cycles, 
 noisy. As such, this paper provides the basis for this work of establishing a method of encoding data within ReRAM cells separate from 
 the memory values, that changes based on how many writes have been issued to the device.
 
-\subsection{Paper 2 - Ian}
+\subsection{Overview of NVM Devices}
+The above paper has proven the potential for data encoding in ReRAM, but other NVM technologies are worthy of review. As NVM and CIM are 
+unsolved fields, commercial applications may move away from ReRAM. There are three other types of NVM technologies deserving particular 
+attention: ECM, phase-change, and magnetic memory. 
+
+\subsubsection{ECM} 
+ECM (electrochemical metallization) memory operates on a similar principle to ReRAM: 
+a low resistance state is created by forming a conductive filament between two electrodes, and a high resistance state is created by 
+destruction of the filament. In ReRAM (also called valence change memory), this conductive filament is formed by oxygen vacancies 
+in an exotic metal oxide layer. In ECM, this conductive filament is formed by the migration of metal ions from an active electrode
+towards an inert electrode through an oxide layer. An existing work demonstrates the set/reset characteristics of ECM in regards to 
+endurance \cite{ECM}, supporting that set/reset characteristics change over many write cycles. While further study would be required to 
+determine if the same technique can be reliably applied to ECM, the required behavior is present.
+
+\subsubsection{PCM}
+PCM (phase change memory) differs in that it does not utilize a conductive filament. In PCM, a layer of thin chalcogenide is deposited 
+between two conducting contacts. By applying a moderate current pulse, the chalcogenide layer is heated, forming a conducting 
+crystalline layer, creating a low resistance state. By applying a short, high current pulse, the chalcogenide layer is melted, 
+rapidly cooling into a non-conducting amorphous layer, creating a high resistance state. An existing work demonstrates, similarly to ECM, 
+that the set/reset characteristics change over time, studied in terms of device endurance \cite{PCM}. Again, further study would be 
+required to determine if the same technique can be applied, but the required behavior is present.
+
+\subsubsection{STT-MRAM}
+STT-MRAM (spin transfer torque magnetic RAM) operate on a substantially different principle that any of the above technologies. 
+An STT-MRAM cell consists of a reference magnetic layer (magnetization direction is fixed), free magnetic layer (magnetization direction 
+is variable) and a tunneling barrier between the two. The state encoding is determined by the direction of an applied spin-polarized 
+current. Applied in one direction, spin-polarized electrons align the free layer to the reference layer, creating a low resistance state. 
+Applied in the opposite direction, the free layer is forced to align opposite to the reference layer, creating a high resistance state. 
+Existing works studying the endurance of STT-MRAM in deep learning applications demonstrate devices capable of >$10^{12}$ write cycles 
+with little to no timing drift \cite{MRAM}. As MRAM does not rely on a filament creation or phase change, only magnetization direction, 
+this makes intuitive sense. Unlike the previous technologies, STT-MRAM does not display the required behavior, and the encoding technique 
+is unlikely work.
 
 
 \subsection{Paper 3 - Ryn}

@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{1}
+\begin{thebibliography}{4}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -43,6 +43,32 @@
 \newblock \bibinfo{journal}{\emph{IEEE Transactions on Information Forensics and Security}}  \bibinfo{volume}{19} (\bibinfo{year}{2024}), \bibinfo{pages}{3608--3619}.
 \newblock
 \href{https://doi.org/10.1109/TIFS.2024.3364845}{doi:\nolinkurl{10.1109/TIFS.2024.3364845}}
+
+
+\bibitem[Huang et~al\mbox{.}(2012)]%
+        {ECM}
+\bibfield{author}{\bibinfo{person}{J.~Q. Huang}, \bibinfo{person}{L.~P. Shi}, \bibinfo{person}{E.~G. Yeo}, \bibinfo{person}{K.~J. Yi}, {and} \bibinfo{person}{R. Zhao}.} \bibinfo{year}{2012}\natexlab{}.
+\newblock \showarticletitle{Electrochemical Metallization Resistive Memory Devices Using $\hbox{ZnS-SiO}_{2}$ as a Solid Electrolyte}.
+\newblock \bibinfo{journal}{\emph{IEEE Electron Device Letters}} \bibinfo{volume}{33}, \bibinfo{number}{1} (\bibinfo{year}{2012}), \bibinfo{pages}{98--100}.
+\newblock
+\href{https://doi.org/10.1109/LED.2011.2173457}{doi:\nolinkurl{10.1109/LED.2011.2173457}}
+
+
+\bibitem[Lei et~al\mbox{.}(2021)]%
+        {PCM}
+\bibfield{author}{\bibinfo{person}{Wu Lei}, \bibinfo{person}{Cai Daolin}, \bibinfo{person}{Chen Yifeng}, \bibinfo{person}{Liu Yuanguang}, \bibinfo{person}{Yan Shuai}, \bibinfo{person}{Li Yang}, \bibinfo{person}{Yu Li}, \bibinfo{person}{Xie Li}, {and} \bibinfo{person}{Song Zhitang}.} \bibinfo{year}{2021//}\natexlab{}.
+\newblock \showarticletitle{Impact of Continuous RESET/SET Operations on Endurance Characteristic of Phase Change Memory}.
+\newblock \bibinfo{journal}{\emph{Journal of Shanghai Jiao Tong University}} \bibinfo{volume}{55}, \bibinfo{number}{9} (\bibinfo{year}{2021//}), \bibinfo{pages}{1134 -- 41}.
+\newblock
+\showISSN{1006-2467}
+
+
+\bibitem[Wei et~al\mbox{.}(2022)]%
+        {MRAM}
+\bibfield{author}{\bibinfo{person}{Z. Wei}, \bibinfo{person}{W. Kim}, \bibinfo{person}{Z. Wang}, \bibinfo{person}{L. Hu}, \bibinfo{person}{D. Jung}, \bibinfo{person}{J. Zhang}, {and} \bibinfo{person}{Y. Huai}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Accurate and Fast STT-MRAM Endurance Evaluation Using a Novel Metric for Asymmetric Bipolar Stress and Deep Learning}. In \bibinfo{booktitle}{\emph{2022 IEEE Symposium on VLSI Technology and Circuits (VLSI Technology and Circuits)}}. \bibinfo{pages}{373--374}.
+\newblock
+\href{https://doi.org/10.1109/VLSITechnologyandCir46769.2022.9830351}{doi:\nolinkurl{10.1109/VLSITechnologyandCir46769.2022.9830351}}
 
 
 \end{thebibliography}
