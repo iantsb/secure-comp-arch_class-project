@@ -14,47 +14,53 @@ Reallocated global_strs (elt_size=200001) to 20 items from 10.
 Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Warning--empty publisher in ReRAM_PUF
+Warning--empty address in ReRAM_PUF
+Warning--empty publisher in neurohammer
+Warning--empty address in neurohammer
 Warning--empty publisher in MRAM
 Warning--empty address in MRAM
-You've used 4 entries,
+Warning--empty publisher in Sealer
+Warning--empty address in Sealer
+You've used 7 entries,
             6056 wiz_defined-function locations,
-            1518 strings with 19020 characters,
-and the built_in function-call counts, 5674 in all, are:
-= -- 786
-> -- 220
+            1538 strings with 19877 characters,
+and the built_in function-call counts, 9459 in all, are:
+= -- 1179
+> -- 361
 < -- 0
-+ -- 76
-- -- 72
-* -- 438
-:= -- 545
-add.period$ -- 20
-call.type$ -- 4
-change.case$ -- 40
-chr.to.int$ -- 4
-cite$ -- 6
-duplicate$ -- 442
-empty$ -- 309
-format.name$ -- 88
-if$ -- 1415
++ -- 126
+- -- 117
+* -- 726
+:= -- 910
+add.period$ -- 35
+call.type$ -- 7
+change.case$ -- 66
+chr.to.int$ -- 7
+cite$ -- 15
+duplicate$ -- 802
+empty$ -- 558
+format.name$ -- 145
+if$ -- 2309
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 17
-newline$ -- 74
-num.names$ -- 28
-pop$ -- 165
+missing$ -- 32
+newline$ -- 98
+num.names$ -- 49
+pop$ -- 329
 preamble$ -- 1
-purify$ -- 72
+purify$ -- 122
 quote$ -- 0
-skip$ -- 160
+skip$ -- 296
 stack$ -- 0
-substring$ -- 419
-swap$ -- 53
+substring$ -- 693
+swap$ -- 86
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 78
-warning$ -- 2
-while$ -- 20
+type$ -- 168
+warning$ -- 8
+while$ -- 37
 width$ -- 0
-write$ -- 117
-(There were 3 warnings)
+write$ -- 174
+(There were 9 warnings)

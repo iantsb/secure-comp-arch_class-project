@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  30 SEP 2025 17:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  1 OCT 2025 12:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1143,12 +1143,19 @@ LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/it' will be
 
 [1.1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}
 
-{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}] Excluding 'comment' comment. (./main.bbl)
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 9.0pt on input line 95.
 
 
+Excluding 'comment' comment. (./main.bbl)
+
+
+Package balance Warning: You have called \balance in second column
+(balance)                Columns might not be balanced.
 
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 7.0pt on input line 107.
+(Font)              scaled to size 7.0pt on input line 132.
 (/usr/local/texlive/2025/texmf-dist/tex/generic/stringenc/se-pdfdoc.def
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (/usr/local/texlive/2025/texmf-dist/tex/generic/stringenc/se-utf8.def
@@ -1159,21 +1166,21 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 28A760F99DEB2CFFBD9016F6D724E200;2098.
+(rerunfilecheck)             Checksum: 70C485EA25D505447635134BF06A41DF;2513.
  ) 
 Here is how much of TeX's memory you used:
- 31777 strings out of 473190
- 573930 string characters out of 5715801
- 1009462 words of memory out of 5000000
- 54000 multiletter control sequences out of 15000+600000
- 695020 words of font info for 267 fonts, out of 8000000 for 9000
+ 31860 strings out of 473190
+ 575902 string characters out of 5715801
+ 1012759 words of memory out of 5000000
+ 54012 multiletter control sequences out of 15000+600000
+ 707119 words of font info for 312 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 99i,12n,131p,1049b,608s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,12n,131p,1049b,600s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinBiolinumTI.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on main.pdf (2 pages, 397974 bytes).
+Output written on main.pdf (2 pages, 406431 bytes).
 PDF statistics:
- 145 PDF objects out of 1000 (max. 8388607)
- 119 compressed objects within 2 object streams
- 23 named destinations out of 1000 (max. 500000)
- 82045 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 159 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
+ 27 named destinations out of 1000 (max. 500000)
+ 86149 words of extra memory for PDF output out of 89155 (max. 10000000)
 

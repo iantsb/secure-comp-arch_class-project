@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{4}
+\begin{thebibliography}{7}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -63,12 +63,36 @@
 \showISSN{1006-2467}
 
 
+\bibitem[Liu et~al\mbox{.}(2021)]%
+        {ReRAM_PUF}
+\bibfield{author}{\bibinfo{person}{M. Liu}, \bibinfo{person}{B. Yan}, {et~al\mbox{.}}} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{An Error Correction Approach to Memristors PUF-based Key Encapsulation}. In \bibinfo{booktitle}{\emph{2021 IEEE International Conference on Omni-Layer Intelligent Systems (COINS)}}. \bibinfo{pages}{1--6}.
+\newblock
+\href{https://doi.org/10.1109/COINS51742.2021.9524282}{doi:\nolinkurl{10.1109/COINS51742.2021.9524282}}
+
+
+\bibitem[Staudigl et~al\mbox{.}(2022)]%
+        {neurohammer}
+\bibfield{author}{\bibinfo{person}{Felix Staudigl}, \bibinfo{person}{Hazem~Al Indari}, \bibinfo{person}{Daniel Schön}, \bibinfo{person}{Dominik Sisejkovic}, \bibinfo{person}{Farhad Merchant}, \bibinfo{person}{Jan~Moritz Joseph}, \bibinfo{person}{Vikas Rana}, \bibinfo{person}{Stephan Menzel}, {and} \bibinfo{person}{Rainer Leupers}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{NeuroHammer: Inducing Bit-Flips in Memristive Crossbar Memories}. In \bibinfo{booktitle}{\emph{2022 Design, Automation and Test in Europe Conference and Exhibition (DATE)}}. \bibinfo{pages}{1181--1184}.
+\newblock
+\href{https://doi.org/10.23919/DATE54114.2022.9774651}{doi:\nolinkurl{10.23919/DATE54114.2022.9774651}}
+
+
 \bibitem[Wei et~al\mbox{.}(2022)]%
         {MRAM}
 \bibfield{author}{\bibinfo{person}{Z. Wei}, \bibinfo{person}{W. Kim}, \bibinfo{person}{Z. Wang}, \bibinfo{person}{L. Hu}, \bibinfo{person}{D. Jung}, \bibinfo{person}{J. Zhang}, {and} \bibinfo{person}{Y. Huai}.} \bibinfo{year}{2022}\natexlab{}.
 \newblock \showarticletitle{Accurate and Fast STT-MRAM Endurance Evaluation Using a Novel Metric for Asymmetric Bipolar Stress and Deep Learning}. In \bibinfo{booktitle}{\emph{2022 IEEE Symposium on VLSI Technology and Circuits (VLSI Technology and Circuits)}}. \bibinfo{pages}{373--374}.
 \newblock
 \href{https://doi.org/10.1109/VLSITechnologyandCir46769.2022.9830351}{doi:\nolinkurl{10.1109/VLSITechnologyandCir46769.2022.9830351}}
+
+
+\bibitem[Zhang et~al\mbox{.}(2022)]%
+        {Sealer}
+\bibfield{author}{\bibinfo{person}{J. Zhang}, \bibinfo{person}{H. Naghibijouybari}, {and} \bibinfo{person}{E. Sadredini}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Sealer: In-SRAM AES for High-Performance and Low-Overhead Memory Encryption}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM/IEEE International Symposium on Low Power Electronics and Design (ISLPED '22)}}. \bibinfo{pages}{1--6}.
+\newblock
+\href{https://doi.org/10.1145/3531437.3539699}{doi:\nolinkurl{10.1145/3531437.3539699}}
 
 
 \end{thebibliography}
