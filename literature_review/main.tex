@@ -91,9 +91,29 @@ is unlikely work.
 
 \subsection{Paper 4 - Ryn } 
 
-\subsection{Paper 5 - Tome}
+\subsection{Bus Encryption for Low-Power Systems}
+This paper, \textit{Sealer: In-SRAM AES for High-Performance and Low-Overhead Memory Encryption} \cite{Sealer}, presents a lightweight
+approach to securing memory and bus transactions in low-power systems. The authors note that conventional bus and memory encryption
+schemes often rely on AES engines placed in the memory controller, which introduce significant latency and energy overhead since
+encryption/decryption lies on the critical path of every memory access. To address this, the Sealer architecture repurposes SRAM
+subarrays to perform AES operations directly within the memory array, exploiting intrinsic bitline-level parallelism. This allows
+data to be encrypted before leaving the chip and decrypted upon return, thereby protecting against bus snooping and cold-boot attacks
+without the heavy cost of dedicated crypto hardware. The results demonstrate up to two orders of magnitude improvement in throughput-per-area
+and a 3$\times$ reduction in energy compared to prior solutions. For this project, the relevance lies in the demonstration that
+bus encryption can be achieved with minimal hardware overhead, suggesting that similar lightweight encryption approaches
+could be adapted for CPU-to-accelerator communication.
 
-\subsection{Paper 6 - Tome}
+\subsection{PUF-Based Encryption Using ReRAM Devices}
+The paper \textit{An Error Correction Approach to Memristors PUF-based Key Encapsulation} \cite{ReRAM_PUF} explores the use of
+ReRAM-based Physically Unclonable Functions (PUFs) for secure key generation and encryption. The authors propose a keyless
+encapsulation protocol that leverages the inherent resistance variability of ReRAM cells to generate unique device responses,
+which are then used directly for message encryption. Unlike traditional schemes, this avoids the need for stored cryptographic
+keys, reducing vulnerability to key extraction attacks. However, because ReRAM PUF responses are sensitive to environmental
+conditions and device noise, the paper introduces error correction coding (ECC) mechanisms (Reed-Solomon and BCH codes) to
+stabilize the responses and ensure reliable decryption. Experimental results confirm that the scheme can produce noise-free
+messages under typical operating variations. For this project, the significance is clear: ReRAM-based PUFs provide a natural
+hardware root of trust that can generate evolving keys tied to device physics, aligning directly with the proposed idea of
+leveraging NVM wear characteristics for asymmetric encryption in IMC accelerators.
 
 \section{Summary of Field}
 \begin{comment}
