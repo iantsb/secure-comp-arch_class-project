@@ -85,11 +85,10 @@ demonstrate devices capable of >$10^{12}$ write cycles with little to no timing 
 filament creation or phase change, only magnetization direction, this makes intuitive sense. Unlike the previous technologies, 
 STT-MRAM does not display the required behavior, and the encoding technique is unlikely to work.
 
+\subsection{Fault Injection Attacks in DNNs}
+Though this work’s main concern is with the protection of IP, it is important to note that deep neural networks (DNNs) have been shown to be highly susceptible to bit flips and fault injection attacks as discussed in \cite{EdgeAIoverview}. This is especially the case with an edge-AI application where quantized weight data is likely to be used. In these applications one targeted bit flip can cause worse than random guess inference from the model \cite{HASHTAG}. Our threat model does not consider RowHammer type of exploits(this is further explained in section 4.7), but we consider the bus connection between an AI accelerator and processor to be vulnerable to tampering.
 
-\subsection{Paper 3 - Ryn}
-
-
-\subsection{Paper 4 - Ryn } 
+One proposed solution for a fault injection attacks \cite{HASHTAG} uses low overhead Pearson hashing to create ground truth hashes per DNN level. The hashes are generated from an assumed benign DNN prior to deployment. During execution time the hashes are recomputed per-level parallel and verified against the ground truth hashes at model checkpoints. For mitigations like this one, which rely on the integrity of pre-deployment data, the use of PUF based encryption may be an integral addition to the secure operation of the model by ensuring verification secrets are kept private from advisories over an untrusted line of communication.  
 
 \subsection{Bus Encryption for Low-Power Systems}
 This paper, \textit{Sealer: In-SRAM AES for High-Performance and Low-Overhead Memory Encryption} \cite{Sealer}, presents a lightweight
