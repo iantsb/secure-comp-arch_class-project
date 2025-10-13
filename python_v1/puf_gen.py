@@ -19,10 +19,11 @@ PAIRS_PER_BANK = BANK_COLS // 2  # 8 pairs/bank
 TOTAL_PAIRS = N_BANKS * PAIRS_PER_BANK  # 128 bits
 
 #randomize t_set
-def program_traces(seed=1234, mean_ns=100.0, sigma_ns=15.0):
+def program_traces(seed=1234, mean_ns=100.0, sigma_ns=15.0, offset_ns=0.0):
     rng = np.random.default_rng(seed)
     t_set = rng.normal(loc=mean_ns, scale=sigma_ns, size=(N_ROWS, N_COLS))
-    return np.clip(t_set, 60.0, 160.0)
+    t_set = np.clip(t_set + offset_ns, 60.0, 160.0)
+    return t_set
 
 #select row to use per bank
 def decode_bank_row(chal_32: int, bank_id: int) -> int:
