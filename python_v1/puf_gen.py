@@ -1,3 +1,12 @@
+# PUF generation - made to be similar to RTL design
+# takes 32 bit challenge and outputs 128 bit response to be hashed
+# accesses same wordline per "bank" - will improve performance in RTL
+# in RTL, would open all bitlines of a bank, open given wordline, compare adjacent bitline pairs
+# using SET race - shown in paper to be more reliable
+
+# would be created in addition to array, not underneath it
+
+
 import numpy as np
 import hashlib
 
@@ -64,5 +73,5 @@ if __name__ == "__main__":
 
     print(f"32-bit challenge = 0x{chal:08X}")
     print(f"raw response vector (128): {''.join(map(str,bits))}")
-    print(f"138-bit key: {key.hex()}")
+    print(f"128-bit key: {key.hex()}")
     print(f"bit balance: ones={sum(bits)}, zeros={128 - sum(bits)}")
