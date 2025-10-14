@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import time
-import puf_gen
+from puf_gen import key_gen
 
 def encrypt_msg(key, plaintxt, header):
     cipher = AES.new(key, AES.MODE_GCM)
@@ -17,7 +17,8 @@ def decrypt_msg(key, ciphertext, tag, nonce, header):
     print("decrypt done: ", plaintext)
     return plaintext
 
-aes_128_key = puf_gen.key
+aes_128_key = key_gen(0x9E4b, 0, 0x5C17A6D3)
+# function used to generate relevant key
 header = b"header"
 message = b"puf encryption is so much fun!"
 print(aes_128_key.hex())
