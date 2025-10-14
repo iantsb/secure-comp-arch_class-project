@@ -3,28 +3,23 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from puf_gen import program_traces, response_bits, key_from_bits
+from puf_gen import key_gen
 
 
-SEED = 0x9E4B
-CHALLENGE = 0x5C17A6D3
+SEED = 0x16FB
+CHALLENGE = 0x7D924EC2
 NUM_RUNS = 1000
 OFFSET_STEP = 0.1  # ns per iteration
 
-
-tset0 = program_traces(seed=SEED, offset_ns=0.0)
-bits0 = response_bits(tset0, CHALLENGE)
-key0 = key_from_bits(bits0)
-ref_key = np.frombuffer(key0, dtype=np.uint8)
+key1 = key_gen(seed=SEED, offset_ns=0.0, challenge=CHALLENGE)
+ref_key = np.frombuffer(key1, dtype=np.uint8)
 
 
 hamming_distances = []
 
 for i in range(1, NUM_RUNS + 1):
     offset = i * OFFSET_STEP
-    tset = program_traces(seed=SEED, offset_ns=offset)
-    bits = response_bits(tset, CHALLENGE)
-    key = key_from_bits(bits)
+    key=key_gen(SEED, offset, CHALLENGE)
     key_bytes = np.frombuffer(key, dtype=np.uint8)
 
     # hamming distance

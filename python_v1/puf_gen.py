@@ -64,13 +64,20 @@ def key_from_bits(bits: list[int]) -> bytes:
     digest = hashlib.sha256(bytes(byts)).digest()
     return digest[:16]
 
+def key_gen(seed=1234,offset_ns=0.0,challenge=0x1234ABCD):
+    timing=program_traces(seed,offset_ns)
+    rbits=response_bits(timing,challenge)
+    new_key=key_from_bits(rbits)
+    return new_key
 
 if __name__ == "__main__":
     tset = program_traces(seed=0x9E4B)
     chal = 0x5C17A6D3
 
     bits = response_bits(tset, chal)
-    key = key_from_bits(bits)
+    #key = key_from_bits(bits)
+
+    key = key_gen(0x9E4b, 0, 0x5C17A6D3)
 
     print(f"32-bit challenge = 0x{chal:08X}")
     print(f"raw response vector (128): {''.join(map(str,bits))}")
