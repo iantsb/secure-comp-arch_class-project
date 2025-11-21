@@ -46,7 +46,7 @@ def ecc_key_construct():
     return private_key, public_key
 
 
-def encrypt_placeholder(chunk: List[float]) -> List[float]:
+def encrypt_placeholder(chunk: List[float]) -> Tuple[List[float], str]:
     # encryption scheme (no-op for now)
     h = SHA256.new()
     to_hash = bytearray()
@@ -57,7 +57,7 @@ def encrypt_placeholder(chunk: List[float]) -> List[float]:
     return chunk, h.hexdigest()
 
 
-def decrypt_placeholder(chunk: List[float]) -> List[float]:
+def decrypt_placeholder(chunk: List[float]) -> Tuple[List[float], str]:
     # decryption scheme (no-op for now)
     h = SHA256.new()
     to_hash = bytearray()
@@ -67,19 +67,26 @@ def decrypt_placeholder(chunk: List[float]) -> List[float]:
     h.update(to_hash)
     return chunk, h.hexdigest()
 
+def fault_injection(enc_weight: float) -> float:
+    flipped_weight: float = 0.0
+    rng = np.random.default_rng()
+    rint = rng.integers(low=0, high=63, size=1)
+
+    bits = cast(pointer(c_double(enc_weight)), POINTER(c_uint64)).contents.value
+    bits ^= int(1 << rint[0])
+    flipped_weight = cast(pointer(c_uint64(bits)), POINTER(c_double)).contents.value
+    return flipped_weight
+
 def transmit_over_bus(data: List[float], num_flips=0) -> Tuple[List[float], List[List[float]]]:
     transmitted: List[float] = []
     bus_log: List[List[float]] = []
+    flip_ctr = num_flips if (num_flips < TX_SIZE) else (TX_SIZE-1)
     for i in range(0, len(data), TX_SIZE):
         chunk = data[i:i + TX_SIZE]
         enc, to_hash = encrypt_placeholder(chunk)
-        if(num_flips != 0):
-            # print("chunk index 0 before flip: ", enc[0])
-            bits = cast(pointer(c_double(enc[0])), POINTER(c_uint64)).contents.value
-            bits ^= 0x0000000000010000
-            enc[0] = cast(pointer(c_uint64(bits)), POINTER(c_double)).contents.value
-            # print("chunk index 0 after flip:  ", enc[0])
-            num_flips -= 1
+        if(flip_ctr != 0):
+            enc[0] = fault_injection(enc[0])
+            flip_ctr -= 1
         bus_log.append(enc)
         dec, from_hash = decrypt_placeholder(enc)
         if(to_hash != from_hash):
@@ -94,7 +101,7 @@ if __name__ == "__main__":
     print(f"total values generated: {len(weights)}")
 
     # transmission (unpack both returned values)
-    received, bus_log = transmit_over_bus(weights, 1)
+    received, bus_log = transmit_over_bus(weights, 2)
     print(f"total values received: {len(received)}")
     print(f"chunks captured on bus: {len(bus_log)}")
 
