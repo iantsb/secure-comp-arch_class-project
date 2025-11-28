@@ -87,28 +87,6 @@ def ecdh_derive_shared(my_private_key, their_public_key):
     shared_secret = shared_point.x.to_bytes(32, byteorder='big')
     return hashlib.sha256(shared_secret).digest()[:16]
 
-
-# def encrypt_placeholder(chunk: List[float]) -> Tuple[List[float], str]:
-#     # encryption scheme (no-op for now)
-#     h = SHA256.new()
-#     to_hash = bytearray()
-#     for i in range(len(chunk)):
-#         bits = cast(pointer(c_double(chunk[i])), POINTER(c_uint64)).contents.value
-#         to_hash.extend(bits.to_bytes(8, byteorder='big'))
-#     h.update(to_hash)
-#     return chunk, h.hexdigest()
-
-
-# def decrypt_placeholder(chunk: List[float]) -> Tuple[List[float], str]:
-#     # decryption scheme (no-op for now)
-#     h = SHA256.new()
-#     to_hash = bytearray()
-#     for i in range(len(chunk)):
-#         bits = cast(pointer(c_double(chunk[i])), POINTER(c_uint64)).contents.value
-#         to_hash.extend(bits.to_bytes(8, byteorder='big'))
-#     h.update(to_hash)
-#     return chunk, h.hexdigest()
-
 def floats_to_bytes(chunk: List[float]) -> bytes:
     byte_data = bytearray()
     for f in chunk:
@@ -202,6 +180,9 @@ def encrypt_rsa(chunk: List[float], recipient_public_key: RSA.RsaKey) -> Tuple[L
     # RSA-2048 with PKCS1_OAEP can encrypt max 214 bytes at a time (256 - 42 for padding)
     max_block_size = recipient_public_key.size_in_bytes() - 42  # OAEP padding overhead
     
+    h = SHA256.new()
+    h.update(plaintext_bytes)
+    plaintxt_hash = h.digest()
     # Encrypt each block with RSA
     cipher_rsa = PKCS1_OAEP.new(recipient_public_key)
     encrypted_blocks = []
@@ -210,7 +191,12 @@ def encrypt_rsa(chunk: List[float], recipient_public_key: RSA.RsaKey) -> Tuple[L
         block = plaintext_bytes[i:i + max_block_size]
         encrypted_block = cipher_rsa.encrypt(block)
         encrypted_blocks.append(encrypted_block)
-    
+    #append hash after original message
+    for i in range(0, len(plaintxt_hash), max_block_size):
+        block = plaintxt_hash[i:i + max_block_size]
+        encrypted_block = cipher_rsa.encrypt(block)
+        encrypted_blocks.append(encrypted_block)
+
     # Concatenate all encrypted blocks
     ciphertext_bytes = b''.join(encrypted_blocks)
     
@@ -251,7 +237,10 @@ def decrypt_rsa(encrypted_chunk: List[float], private_key: RSA.RsaKey, tag: byte
             encrypted_block = ciphertext_bytes[block_start:block_end]
             
             decrypted_block = cipher_rsa.decrypt(encrypted_block)
-            decrypted_blocks.append(decrypted_block)
+            if(i == num_blocks-1):
+                rx_hash = decrypted_block
+            else:
+                decrypted_blocks.append(decrypted_block)
         
         # Concatenate all decrypted blocks
         plaintext_bytes = b''.join(decrypted_blocks)
@@ -260,9 +249,12 @@ def decrypt_rsa(encrypted_chunk: List[float], private_key: RSA.RsaKey, tag: byte
         if original_len is not None and len(plaintext_bytes) > original_len:
             plaintext_bytes = plaintext_bytes[:original_len]
         
+        h = SHA256.new()
+        h.update(plaintext_bytes)
+
         # Convert back to floats
         decrypted_chunk = bytes_to_floats(plaintext_bytes)
-        return decrypted_chunk, True
+        return decrypted_chunk, (rx_hash == h.digest())
     except (ValueError, Exception):
         print('data tampered, rsa decryption failed, returning garbage data')
         if original_len is not None:
@@ -324,7 +316,7 @@ if __name__ == "__main__":
     weights, layout = create_small_mnist_weights(seed=123)
     print(f"total values generated: {len(weights)}")
 
-    encryption_mode = 'ecc'
+    encryption_mode = 'rsa'
     
     # transmission (unpack both returned values)
     received, bus_log = transmit_over_bus(weights, num_flips=0, encryption_mode=encryption_mode)
