@@ -124,10 +124,12 @@ For example, HashTAG \cite{HASHTAG} attempts to resolve the issue by generated P
 Another low overhead mitigation is LIMA \cite{LIMA}. Here, the authors propose encoding the data integrity check into the weights themselves by modifying a K (defined per system) number of LSBs such that the sum of K MSBs and LSBs equals 0 per DNN layer. The key insight from this work is that the LSBs of the quantized weights minimally impact the accuracy of the model. LIMA does not increase memory overhead and only requires multiply and accumulate operations to verify integrity. However, the mitigation is still leaves a model vulnerable as an attacker could flip bits in the weights such that the LSBs and MSBs still sum to 0. Another note is that LIMA caught single bit-flips only 70.5\% of the time in the worst case.   
 
 \subsection{Neurohammer}
+Neurohammer presents an attack on ReRAM non-volatile memory similar to the row hammer attack in DRAM. This paper has little relevance to the work presented in this project but presents a possible security concern for ReRAM designs. The attack utilizes thermal crosstalk between adjacent ReRAM cells to cause intentional bit flips. In this scheme, the attacker cell is repeatedly pulsed with a high voltage, causing the cell’s temperature to rapidly increase. Thermal coupling between the attacker and victim cell causes the victim cell to also increase in temperature. Once heated, lower voltage pulses (at the level of read voltage of ReRAM cells) will be sufficient to cause bit flips. Essentially, this means that repeated attacker accesses will cause future reads on victim cells to alter the victim state and cause a bit flip. The authors then simulate a Neurohammer attack and demonstrate that it can effectively cause bit flips. Since row hammer represents both a security and reliability concern, Neurohammer defenses may be required for secure ReRAM implementations.
 
 \subsection{ReRAM PUFs}
 
-\subsection {Hiding Information in ReRAM Cells}
+
+\subsection{Hiding Information in ReRAM Cells}
 
 %%%%%%% -- PAPER CONTENT ENDS -- %%%%%%%%
 
