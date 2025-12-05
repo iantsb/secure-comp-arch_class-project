@@ -127,9 +127,22 @@ Another low overhead mitigation is LIMA \cite{LIMA}. Here, the authors propose e
 Neurohammer presents an attack on ReRAM non-volatile memory similar to the row hammer attack in DRAM. This paper has little relevance to the work presented in this project but presents a possible security concern for ReRAM designs. The attack utilizes thermal crosstalk between adjacent ReRAM cells to cause intentional bit flips. In this scheme, the attacker cell is repeatedly pulsed with a high voltage, causing the cell’s temperature to rapidly increase. Thermal coupling between the attacker and victim cell causes the victim cell to also increase in temperature. Once heated, lower voltage pulses (at the level of read voltage of ReRAM cells) will be sufficient to cause bit flips. Essentially, this means that repeated attacker accesses will cause future reads on victim cells to alter the victim state and cause a bit flip. The authors then simulate a Neurohammer attack and demonstrate that it can effectively cause bit flips. Since row hammer represents both a security and reliability concern, Neurohammer defenses may be required for secure ReRAM implementations.
 
 \subsection{ReRAM PUFs}
+ReRAM PUF methods have been studied extensively. The key issue with ReRAM PUFs is the variability due to read voltage and temperature, reducing repeatability. Our approach relies on ReRAM for random key generation on device startup and does not need to be repeatable, but it still important to consider how the devices made be made more reliable for the purpose of read out. One approach solves the issue of read disturbance by operating at very low read voltages. In the paper Design and Analysis of Pre-formed
+ReRAM-Based PUF [], unformed ReRAM cells are read out using very low read currents (110 nA) to reliably generate entropy based on observed conductance. While this method does display temperature variance, they demonstrate it to be reliable across separate reads with an average of 0.30\% intra-cell variation. Of course, this method relies on unformed PUFs and prevents the ReRAM device from being used for any other purpose. Additionally, if current increases and the ReRAM becomes programmed, the PUF is permanently lost. It may be that this method would not even be suitable as a entropy source after programming, as it will simply read out current state. 
+Another paper, Re4PUF [], proposes to increase reliability by substantially increasing the footprint of the PUF. In this configuration, they use a 3T2R cell per PUF: two ReRAM cells, one select transistor, and one inverter. Their topology creates a voltage divider across the ReRAM cells, taking the output voltage and binarizing it with an inverter to reduce fluctuations. They prove their design to be robust and secure, forming a strong PUF with very low bit error rate. Unfortunately, they have not performed any temperature analysis and results cannot be assumed to be positive. This is still likely a strong method for PUF generation in ReRAM, but requires entirely separate structures independent of any ReRAM crossbar array.
+
 
 
 \subsection{Hiding Information in ReRAM Cells}
+This paper demonstrates a technique for covert data storage in ReRAM devices []. The researchers state that the set/reset time of
+a ReRAM cell changes with each write cycle. This occurs due to oxygen vacancies in the oxide layer used to construct the conductive
+filament and limits the total number of write cycles the cell can handle before it no longer functions. The researchers have observed
+that, once the set/reset characteristics of a cell have been altered, they can reliable determine cells with more or less "wear". By
+setting a point at which set/reset times can be read as binary "1" or "0", cells can intentially be worn down to encode values in the
+set/reset time. The researchers demonstrate that fresh cells can be worn down in desired bit patterns, and the data can be be reliably
+recovered until a threshold is reached. After a certain number of write cycles, the data encoded in the set/reset time becomes too 
+noisy. As such, this paper provides the basis for this work of establishing a method of encoding data within ReRAM cells separate from 
+the memory values, that changes based on how many writes have been issued to the device.
 
 %%%%%%% -- PAPER CONTENT ENDS -- %%%%%%%%
 
