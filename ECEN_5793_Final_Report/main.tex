@@ -14,6 +14,10 @@
 \usepackage{flushend}
 % Always include hyperref last
 \usepackage[bookmarks=true,breaklinks=true,letterpaper=true,colorlinks,linkcolor=black,citecolor=blue,urlcolor=black]{hyperref}
+\usepackage{subcaption}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{urlcolor=blue}
+\usepackage[listings,skins]{tcolorbox}
 
 % Ensure letter paper
 \pdfpagewidth=8.5in
@@ -41,13 +45,16 @@
 In-memory computing to accelerate AI requires neural networks weights to be encoded in non-volatile memory (NVM). Current heterogeneous systems require weights to be communicated from CPU to accelerator, potentially in an untrusted environment. At present, there is no way to encrypt these weights in NVM to allow for correct neural network function. Securing this operation therefore (currently) requires encrypting/decrypting weights as communicated from CPU to accelerator to prevent snooping/monitoring attacks; however, as many of these applications are low-power, this proves difficult with a constrained area/power budget. This project seeks to describe a method of weight encryption in these systems leveraging existing device properties to reduce security overhead. 
 
 \section{Motivation}
-Non-volatile memory (NVM) has emerged as a new memory paradigm in recent years, offering non-dynamic system memory that does not require refreshing. This type of memory has also been used for in-memory computing (IMC), as the two-terminal nature of certain NVM implementations (such as ReRAM \cite{reram_imc}) allow for direct operation within the memory cells. This has become especially relevant for ML applications, in which neural networks may be directly mapped to a crossbar array of NVM cells \cite{array}. Security in NVM cells is already a challenge due to data longevity, but has been researched using Bonsai-Merkle Trees (BMT) to secure the memory \cite{bmt_nvm}. While effective in NVM for system memory, this is not an option for IMC, as the crossbar array must hold unencrypted values for correct neural network operation. 
+Non-volatile memory (NVM) has emerged as a new memory paradigm in recent years, offering non-dynamic system memory that does not require refreshing. This type of memory has also been used for in-memory computing (IMC), as the two-terminal nature of certain NVM implementations (such as ReRAM \cite{reram_imc}) allow for direct operation within the memory cells. This has become especially relevant for ML applications, in which neural networks may be directly mapped to a crossbar array of NVM cells \cite{array}. This process requires that data be stored unencrypted to preserve computational integrity, forcing novel security solutions to be found.
 
 In the SLEAC project \cite{sleac}, the CPU/accelerator system consists of a CPU, IMC accelerator, and a data bus connecting the two. This system is prone to snooping attacks on the bus as weight values, along with their location within the array and instruction, are communicated from CPU to accelerator. Therefore, it is desired to determine a suitable encryption/decryption method for this unique low-power application such that instructions/data may be sent securely across the bus. 
 
 \subsection{Threat Model}
+For this system, the model is considered to be a black box to an attacker since the confidentiality of the weights and other model IP is our primary goal. Additionally, the bus is assumed to be unsafe and vulnerable to physical probing by an attacker to snoop weight data. We also consider an attacker that can induce targeted or random bit flips on the weight data as it is transmitted across the bus. Entirely attacker generated messages are not considered, therefore our mitigation does not defend against replay attacks. For the purposes of this work, the CPU and accelerator are assumed to be safe and data stored on either is trusted. 
 
 \section{Experiment}
+Please find all python code and other source materials used for the experiment here: \url{https://github.com/iantsb/secure-comp-arch_class-project}
+
 \subsection{Bus Encryption}
 \label{subsec:bus_encryption}
 We implemented three cryptographic approaches directly into the CPU-accelerator bus layer to secure any transfers such as MNIST weights. Each scheme has advantages and disadvantages, with clear differences in hardware.
@@ -61,7 +68,7 @@ To relieve the tension between secrecy and efficiency, our third and final crypt
 These cryptographic schemes differ in hardware complexity as well as security implications. The hybrid ECDH + AES approach adds elliptic curve logic on top of the AES-GCM component, so the tradeoff is more hardware complexity than the other two schemes. Yet, no scheme is perfect. Symmetric encryption alone struggles with key exchange, pure asymmetric lacks in performance, and hybrid has additional implementation costs. Each of these designs has its trade-off, balancing secrecy, speed and hardware complexity differently.
 
 \subsection{Weight Integrity}
-In the case where pure RSA encryption is used, data integrity check for weights is added by appending a SHA256 hash (computed over the plaintext weights) ciphertext in its encrypted form, extending the encrypted block size by one. On the receiving side, the ciphertext is decrypted and the hash is stripped from the message. The SHA256 hash is then recomputed over the decrypted weights and compared with the received hash value. If the values are equal the weight update is successful, otherwise the update is ignored. This process design is shown in Figure \ref{flow diagram}
+In the case where pure RSA encryption is used, data integrity check for weights is added by appending a SHA256 hash (computed over the plaintext weights) ciphertext in its encrypted form, extending the encrypted block size by one. On the receiving side, the ciphertext is decrypted and the hash is stripped from the message. The SHA256 hash is then recomputed over the decrypted weights and compared with the received hash value. If the values are equal the weight update is successful, otherwise the update is ignored. This overall design is shown in Figure \ref{flow diagram}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{encrypt_hash_flow_diagram.png}
@@ -70,9 +77,9 @@ In the case where pure RSA encryption is used, data integrity check for weights 
 \end{figure}
 
 \subsection{PUF Design}
-ReRAM cells have been examined by several works as a PUF source. These works are further examined in \ref{subsec:PUFS} but show that ReRAM can be used as reliable and secure PUFs in a variety of manners. Common across these works, however, is the use of ReRAM PUFs without utilizing the ReRAM for memory. As the PUF designs are based on physical properties of the cell, the wear placed on the cells due to read/write operations change these properties and alters PUF behavior. As examined in [], this wear on the read/write times of the cells happens in a predictable manner and has reliable effects on the read/write time.
+ReRAM cells have been examined by several works as a PUF source. These works are further examined in Section \ref{subsec:PUFS} but show that ReRAM can be used as reliable and secure PUFs in a variety of manners. Common across these works, however, is the use of ReRAM PUFs without utilizing the ReRAM for memory. As the PUF designs are based on physical properties of the cell, the wear placed on the cells due to read/write operations change these properties and alters PUF behavior. As examined in Section \ref{subsec:hiding}, this wear on the read/write times of the cells happens in a predictable manner and has reliable effects on the read/write time.
 Our approach aims to use ReRAM cells for both memory and key generation by accounting for the drift in read/write time and using it as a source of continued entropy. This allows for a design in which no extra ReRAM cells are used to generate cryptographic keys, conserving physical space and reusing existing devices. This also may allow for cryptographic generation in existing ReRAM implementations without extensive hardware changes. This would be an efficient way to improve security in ReRAM technologies and a novel way to use memory for dual purposes. 
-A PUF bit is generated by race condition between two adjacent ReRAM cells in the SET times. This could either be done in the analog domain with a comparator between the bitlines, or in the digital domain based on the timing of the output bits. The actual implementation would come down to reliability and area overhead. To provide the challenge bits, several rows of ReRAM would be utilized, where the challenge bit selects which row is used for the comparison. The ReRAM would then be organized into “banks” (note, this is a purely organizational term and does not require any physical change) where each bank accesses a row determined by the challenge bits. For example, with 4 rows and 16 banks, each bank uses 2 challenge bits (2 bits to access 4 rows) to create a 32-bit challenge. This is shown in Figures [] through []. This method is made efficient by using the same wordline access per bank, allowing PUF generation to be parallelized. The challenge can also be made more robust by using challenge “rounds”, where this process is repeated several times. 
+A PUF bit is generated by race condition between two adjacent ReRAM cells in the SET times. This could either be done in the analog domain with a comparator between the bitlines, or in the digital domain based on the timing of the output bits. The actual implementation would come down to reliability and area overhead. To provide the challenge bits, several rows of ReRAM would be utilized, where the challenge bit selects which row is used for the comparison. The ReRAM would then be organized into “banks” (note, this is a purely organizational term and does not require any physical change) where each bank accesses a row determined by the challenge bits. For example, with 4 rows and 16 banks, each bank uses 2 challenge bits (2 bits to access 4 rows) to create a 32-bit challenge. This method is made efficient by using the same wordline access per bank, allowing PUF generation to be parallelized. The challenge can also be made more robust by using challenge “rounds”, where this process is repeated several times. 
 In an idealized approach, a 256 by 256 ReRAM array performs in-memory computation via matrix vector multiplication (MVM). When a cryptographic key is required, the challenge is provided, and specific ReRAM cells (likely the cells located closest to the readout) are used in a SET race to generate PUF bits. Once the key has been obtained, the ReRAM cells are re-programmed to their original state and resume MVM operation. If a digital readout is used to generate the PUF bits, it may be possible to do without any additional hardware and drive the computation purely by the ReRAM accesses. While not usable for fingerprinting (as the key changes over time) it would be a reliable random key generator.
 The evaluation of this approach in this report will focus on two properties that may eventually be examined by experiment. First, the drift of the generated key over time as wear is placed on the ReRAM cells. It is important to understand how the key drifts over time to understand if it happens predictably or unpredictably. Second, the strength of the PUF generated by different configurations of the array. For example, PUF generation could be done with 4 rows of 256 columns organized into 16 banks, or 4 rows of 256 columns organized into a single bank with a round-based generation. The strength of the generated PUF will be evaluated based on the average bit mean (ideally 0.5) and average inter-Hamming distance (ideally 64 for a 128-bit key). This average will be taken over many initial seedings for the SET times of the ReRAM cells. This will allow us to determine the ideal configuration for bit generation when combined with a timing estimate that can generate a cryptographically secure key in the shortest possible time. 
 
@@ -129,20 +136,25 @@ small subset of the data, demonstrating the result space for this evaluation.
 
 \begin{figure}[!htbp]
     \centering
-    \begin{subfigure}{0.48\linewidth}
+
+    \begin{subfigure}{0.9\linewidth}
         \centering
-        \includegraphics[height=0.22\textheight]{strength_bal.png}
+        \includegraphics[width=\linewidth]{strength_bal.png}
         \caption{Bit Mean Scatter Plot}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\linewidth}
+
+    \vspace{1em}
+
+    \begin{subfigure}{0.9\linewidth}
         \centering
-        \includegraphics[height=0.22\textheight]{strength_hd.png}
+        \includegraphics[width=\linewidth]{strength_hd.png}
         \caption{Hamming Distance Scatter Plot}
     \end{subfigure}
+
     \caption{Initial Plotted Results}
     \label{scatter}
 \end{figure}
+
 
 The best results are presented in Table \ref{puf_best}, comparing results for various
 configurations. For the calculation of access time, the raw access time as well
@@ -161,7 +173,7 @@ shortest adjusted access time as well as the bit mean and inter-HD closest to op
 \centering
 \begin{tabular}{c c c c c c}
 \hline
-\# Rows & \# Banks & Bit Mean & HD (avg) & Single-shot Time & Adjusted Time \\
+\# Rows & \# Banks & Bit Mean & HD (avg) & Raw Time & Adjusted Time \\
 \hline
 256 & 1 & 0.487 & 51.47 & 140 ns & 560 ns \\
 16  & 1 & 0.487 & 51.47 & 140 ns & 1120 ns \\
@@ -184,22 +196,27 @@ directly correlated.
 
 \begin{figure}[!htbp]
     \centering
+
     \begin{subfigure}{0.48\linewidth}
         \centering
-        \includegraphics[height=0.22\textheight]{bank_HD.png}
+        \includegraphics[width=\linewidth]{bank_HD.png}
         \caption{Hamming Distance vs #Banks}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.48\linewidth}
         \centering
-        \includegraphics[height=0.22\textheight]{bank_mean.png}
+        \includegraphics[width=\linewidth]{bank_mean.png}
         \caption{Bit Mean vs #Banks}
     \end{subfigure}
+ 
+    \vspace{0.5em} % small vertical spacing between rows
+
     \begin{subfigure}{0.48\linewidth}
         \centering
-        \includegraphics[height=0.22\textheight]{bank_time.png}
+        \includegraphics[width=\linewidth]{bank_time.png}
         \caption{Access Time vs #Banks}
     \end{subfigure}
+ 
     \caption{Results versus Bank Count}
     \label{bank_count}
 \end{figure}
@@ -216,9 +233,9 @@ To evaluate the practicality of each scheme described in Subsection~\ref{subsec:
 As shown in Figure \ref{encryption time chart}, the insecure bus baseline transmits the message in 0.130s, while hashing only for integrity without any encryption increases the time to 0.457s. AES-GCM gives us efficient protection, finishing in 0.802s, the hybrid ECDH+AES-GCM scheme incurs a higher cost of 1.510s, and RSA is by far the slowest with 5.819 seconds to fully encrypt, send the message over the bus, and decrypt it on the other side.
 
 \subsection{Weight Integrity}
-For an integrated functional simulation in python, the SHA256 class is used from the pycryptodome library. The integrity check was verified with a simple bit flipping function that XORs the ciphertext with a 64-bit mask where 1 bit is randomly set using the numpy random module. 
+For an integrated functional simulation in python, the SHA256 class is used from the pycryptodome library. The integrity check was verified with a simple bit flipping function that XORs the ciphertext with a 64-bit mask where 1 bit is randomly set using the numpy random module. See Appendix \ref{sec.bit_flip_method} for the detailed code.
 
-To obtain a power analysis of the SHA256 module, RTL from an open source github project\cite{SHA256} was synthesized with Vivado for an Artix 7 FPGA development board. This Verilog implementation of SHA256 has a 512-bit block input with a 256-bit disgest and executes 64 rounds of hashing, one round per cycle. Clockspeed was set to 50MHz. Using this test setup, the reported power of the RTL is detailed in Table \ref{power report}, notably the total is only 0.557W. 
+To obtain a power analysis of the SHA256 module, RTL from an open source github project\cite{SHA256} was synthesized with Vivado for an Artix 7 FPGA development board. This Verilog implementation of SHA256 has a 512-bit block input with a 256-bit disgest and executes 64 rounds of hashing, one round per cycle. Clockspeed was set to 50MHz. Using this test setup, the reported power of the RTL is detailed in Table \ref{power report}, notably the total is only 0.557W. The full power report is available in our github repository in sha256\_power\_report.txt. 
 
 \begin{table}[]
     \centering
@@ -299,5 +316,22 @@ the memory values, that changes based on how many writes have been issued to the
 \bibliographystyle{IEEEtranS}
 \bibliography{refs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendices
+\section{Bit Flip Method}
+\label{sec.bit_flip_method}
+\begin{lstlisting}[frame=single, language=Python]
+def fault_injection(enc_weight: float) 
+-> float:
+  flipped_weight: float = 0.0
+  rng = np.random.default_rng()
+  rint = rng.integers(low=0, high=63, 
+  size=1)
+
+  #change enc_weight to 64b integer
+  bits ^= int(1 << rint[0])
+  #convert bits to float and 
+  #store in flipped_weight
+  return flipped_weight
+\end{lstlisting}
 
 \end{document}
